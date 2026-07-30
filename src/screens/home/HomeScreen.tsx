@@ -8,6 +8,8 @@ import { BottomSheet } from "@/components/common/BottomSheet";
 import { PremiumButton } from "@/components/common/PremiumButton";
 import { Fab } from "@/components/common/Fab";
 import { SkeletonBlock } from "@/components/common/SkeletonBlock";
+import { HealthScoreWidget } from "@/widgets/HealthScoreWidget";
+import { SmartFeedWidget } from "@/widgets/SmartFeedWidget";
 import { BalanceWidget } from "@/widgets/BalanceWidget";
 import { FlowChartWidget } from "@/widgets/FlowChartWidget";
 import { BreakdownWidget } from "@/widgets/BreakdownWidget";
@@ -66,6 +68,12 @@ export function HomeScreen() {
         ) : (
           <SkeletonBlock className="h-[19rem] rounded-[var(--radius-3xl)]" />
         )}
+
+        <HealthScoreWidget />
+
+        <Section title="Feed inteligente" description="Insights gerados a partir dos seus dados">
+          <SmartFeedWidget limit={4} />
+        </Section>
 
         <Section title="Resumo do mês" description="Indicadores principais">
           <div className="grid grid-cols-2 gap-3">

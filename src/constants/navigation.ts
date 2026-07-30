@@ -3,6 +3,7 @@ import {
   GraduationCap,
   Newspaper,
   PieChart,
+  Receipt,
   ShieldCheck,
   UserRound,
   type LucideIcon,
@@ -11,6 +12,7 @@ import {
 export type AppRoutePath =
   | "/"
   | "/financas"
+  | "/compromissos"
   | "/patrimonio"
   | "/patrimonio/cofre"
   | "/ia"
@@ -32,6 +34,13 @@ export interface NavItem {
 export const PRIMARY_NAV: NavItem[] = [
   { id: "home", label: "Início", path: "/", icon: LayoutDashboard },
   { id: "finances", label: "Finanças", path: "/financas", icon: PieChart, matchPrefix: "/financas" },
+  {
+    id: "commitments",
+    label: "Contas",
+    path: "/compromissos",
+    icon: Receipt,
+    matchPrefix: "/compromissos",
+  },
   {
     id: "wealth",
     label: "Patrimônio",
