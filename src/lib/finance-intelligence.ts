@@ -4,13 +4,11 @@
  */
 import type {
   ActivityRecord,
-  BillRecord,
-  CategoryRecord,
   CommitmentRecord,
   GoalRecord,
-  InstallmentRecord,
   LedgerState,
 } from "@/providers/LedgerProvider";
+
 
 export type Band = "excelente" | "boa" | "atencao" | "critica";
 
