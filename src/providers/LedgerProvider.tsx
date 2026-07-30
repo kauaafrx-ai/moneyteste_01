@@ -91,6 +91,38 @@ export interface AssetRecord {
   colorVar: string;
 }
 
+/* ── Central de Compromissos Financeiros ─────────────────── */
+
+export type CommitmentDirection = "payable" | "receivable";
+export type CommitmentStatus = "paid" | "pending" | "scheduled" | "awaiting" | "late" | "canceled";
+export type CommitmentPriority = "alta" | "media" | "baixa";
+export type CommitmentMethod = "pix" | "boleto" | "cartao" | "dinheiro" | "transferencia";
+export type CommitmentRecurrence = "none" | "weekly" | "biweekly" | "monthly" | "yearly";
+
+export interface CommitmentRecord {
+  id: string;
+  direction: CommitmentDirection;
+  counterparty: string;
+  amount: number;
+  category: string;
+  description?: string;
+  dueDate: string; // yyyy-mm-dd
+  priority: CommitmentPriority;
+  method: CommitmentMethod;
+  bank?: string;
+  pixKey?: string;
+  barcode?: string;
+  status: CommitmentStatus;
+  notes?: string;
+  receiptId?: string;
+  recurrence: CommitmentRecurrence;
+  groupId?: string;
+  installmentIndex?: number;
+  installmentCount?: number;
+  paidAt?: string;
+  contact?: string;
+}
+
 export interface LedgerState {
   categories: CategoryRecord[];
   subscriptions: SubscriptionRecord[];
@@ -101,8 +133,10 @@ export interface LedgerState {
   receipts: ReceiptRecord[];
   folders: string[];
   assets: AssetRecord[];
+  commitments: CommitmentRecord[];
   reserve: { current: number; monthlyCost: number; months: number };
 }
+
 
 const today = new Date();
 const iso = (offsetDays: number) => {
