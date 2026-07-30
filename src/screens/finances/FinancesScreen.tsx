@@ -18,6 +18,8 @@ import { Input } from "@/components/ui/input";
 import { ActivityWidget } from "@/widgets/ActivityWidget";
 import { BreakdownWidget } from "@/widgets/BreakdownWidget";
 import { UpcomingBillsWidget } from "@/widgets/UpcomingBillsWidget";
+import { TimelineWidget } from "@/widgets/TimelineWidget";
+import { AnomalyRadarWidget } from "@/widgets/AnomalyRadarWidget";
 import { ReceiptsManager } from "@/components/finance/ReceiptsManager";
 import { SubscriptionEditor } from "@/components/finance/CategoryEditor";
 import { InstallmentEditor } from "@/components/finance/InstallmentEditor";
@@ -126,6 +128,12 @@ export function FinancesScreen() {
                     : true)
                 }
               />
+            </Section>
+            <Section title="Radar de gastos anormais" description="A IA compara seu comportamento recente com o histórico.">
+              <AnomalyRadarWidget />
+            </Section>
+            <Section title="Linha do tempo" description="Cada movimentação com um comentário da IA.">
+              <TimelineWidget limit={12} />
             </Section>
             <Section title="Próximas contas">
               <UpcomingBillsWidget limit={10} />

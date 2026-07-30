@@ -91,6 +91,38 @@ export interface AssetRecord {
   colorVar: string;
 }
 
+/* ── Central de Compromissos Financeiros ─────────────────── */
+
+export type CommitmentDirection = "payable" | "receivable";
+export type CommitmentStatus = "paid" | "pending" | "scheduled" | "awaiting" | "late" | "canceled";
+export type CommitmentPriority = "alta" | "media" | "baixa";
+export type CommitmentMethod = "pix" | "boleto" | "cartao" | "dinheiro" | "transferencia";
+export type CommitmentRecurrence = "none" | "weekly" | "biweekly" | "monthly" | "yearly";
+
+export interface CommitmentRecord {
+  id: string;
+  direction: CommitmentDirection;
+  counterparty: string;
+  amount: number;
+  category: string;
+  description?: string;
+  dueDate: string; // yyyy-mm-dd
+  priority: CommitmentPriority;
+  method: CommitmentMethod;
+  bank?: string;
+  pixKey?: string;
+  barcode?: string;
+  status: CommitmentStatus;
+  notes?: string;
+  receiptId?: string;
+  recurrence: CommitmentRecurrence;
+  groupId?: string;
+  installmentIndex?: number;
+  installmentCount?: number;
+  paidAt?: string;
+  contact?: string;
+}
+
 export interface LedgerState {
   categories: CategoryRecord[];
   subscriptions: SubscriptionRecord[];
@@ -101,8 +133,10 @@ export interface LedgerState {
   receipts: ReceiptRecord[];
   folders: string[];
   assets: AssetRecord[];
+  commitments: CommitmentRecord[];
   reserve: { current: number; monthlyCost: number; months: number };
 }
+
 
 const today = new Date();
 const iso = (offsetDays: number) => {
@@ -154,7 +188,36 @@ const SEED: LedgerState = {
     { id: "fii", label: "Fundos imobiliários", amount: 3_560_000, icon: "home", colorVar: "var(--chart-3)" },
     { id: "int", label: "Internacional", amount: 2_120_900, icon: "plane", colorVar: "var(--chart-4)" },
   ],
+  commitments: [
+    {
+      id: "c1", direction: "payable", counterparty: "Lucas Almeida", amount: 32_000, category: "Empréstimo",
+      description: "PIX emprestado no fim de semana", dueDate: iso(3), priority: "media", method: "pix",
+      bank: "nubank", pixKey: "lucas.almeida@email.com", status: "pending", recurrence: "none",
+    },
+    {
+      id: "c2", direction: "payable", counterparty: "Condomínio Vista Verde", amount: 74_500, category: "Moradia",
+      description: "Taxa condominial", dueDate: iso(-2), priority: "alta", method: "boleto",
+      bank: "itau", barcode: "34191.79001 01043.510047 91020.150008 5 91230000074500",
+      status: "pending", recurrence: "monthly",
+    },
+    {
+      id: "c3", direction: "payable", counterparty: "Faculdade Horizonte", amount: 128_000, category: "Educação",
+      description: "Mensalidade", dueDate: iso(9), priority: "alta", method: "boleto", status: "scheduled",
+      recurrence: "monthly",
+    },
+    {
+      id: "c4", direction: "receivable", counterparty: "Marina Costa", amount: 18_500, category: "Divisão de despesas",
+      description: "Parte do jantar de aniversário", dueDate: iso(1), priority: "baixa", method: "pix",
+      status: "awaiting", recurrence: "none", contact: "5511999990000",
+    },
+    {
+      id: "c5", direction: "receivable", counterparty: "Studio Vega", amount: 240_000, category: "Reembolso",
+      description: "Reembolso de viagem corporativa", dueDate: iso(12), priority: "media", method: "transferencia",
+      status: "awaiting", recurrence: "none",
+    },
+  ],
   reserve: { current: 3_120_000, monthlyCost: 800_000, months: 6 },
+
 };
 
 export const uid = () => Math.random().toString(36).slice(2, 10);
