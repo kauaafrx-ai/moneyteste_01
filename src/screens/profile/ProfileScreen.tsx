@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import {
   Bell,
   CircleHelp,
@@ -6,10 +7,12 @@ import {
   Info,
   Moon,
   Palette,
+  Settings,
   ShieldCheck,
   Upload,
   UserRound,
 } from "lucide-react";
+
 import { AppShell } from "@/components/layout/AppShell";
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
 import { Section } from "@/components/common/Section";
