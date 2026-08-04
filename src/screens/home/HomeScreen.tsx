@@ -101,10 +101,11 @@ export function HomeScreen() {
 
       <div className="mt-5 space-y-6">
         {ready ? (
-          <BalanceWidget onAction={(id) => setSheet(id)} />
+          <BalanceWidget onAction={handleBalanceAction} />
         ) : (
           <SkeletonBlock className="h-[19rem] rounded-[var(--radius-3xl)]" />
         )}
+
 
         <HealthScoreWidget />
 
