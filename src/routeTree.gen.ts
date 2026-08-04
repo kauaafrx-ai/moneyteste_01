@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as RendaPassivaRouteImport } from './routes/renda-passiva'
 import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as PatrimonioRouteImport } from './routes/patrimonio'
+import { Route as PagarRouteImport } from './routes/pagar'
 import { Route as NoticiasRouteImport } from './routes/noticias'
 import { Route as IaRouteImport } from './routes/ia'
 import { Route as FinancasRouteImport } from './routes/financas'
@@ -35,6 +36,11 @@ const PerfilRoute = PerfilRouteImport.update({
 const PatrimonioRoute = PatrimonioRouteImport.update({
   id: '/patrimonio',
   path: '/patrimonio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PagarRoute = PagarRouteImport.update({
+  id: '/pagar',
+  path: '/pagar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NoticiasRoute = NoticiasRouteImport.update({
@@ -90,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/financas': typeof FinancasRoute
   '/ia': typeof IaRoute
   '/noticias': typeof NoticiasRoute
+  '/pagar': typeof PagarRoute
   '/patrimonio': typeof PatrimonioRouteWithChildren
   '/perfil': typeof PerfilRoute
   '/renda-passiva': typeof RendaPassivaRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/financas': typeof FinancasRoute
   '/ia': typeof IaRoute
   '/noticias': typeof NoticiasRoute
+  '/pagar': typeof PagarRoute
   '/perfil': typeof PerfilRoute
   '/renda-passiva': typeof RendaPassivaRoute
   '/api/chat': typeof ApiChatRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/financas': typeof FinancasRoute
   '/ia': typeof IaRoute
   '/noticias': typeof NoticiasRoute
+  '/pagar': typeof PagarRoute
   '/patrimonio': typeof PatrimonioRouteWithChildren
   '/perfil': typeof PerfilRoute
   '/renda-passiva': typeof RendaPassivaRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/financas'
     | '/ia'
     | '/noticias'
+    | '/pagar'
     | '/patrimonio'
     | '/perfil'
     | '/renda-passiva'
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/financas'
     | '/ia'
     | '/noticias'
+    | '/pagar'
     | '/perfil'
     | '/renda-passiva'
     | '/api/chat'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/financas'
     | '/ia'
     | '/noticias'
+    | '/pagar'
     | '/patrimonio'
     | '/perfil'
     | '/renda-passiva'
@@ -176,6 +188,7 @@ export interface RootRouteChildren {
   FinancasRoute: typeof FinancasRoute
   IaRoute: typeof IaRoute
   NoticiasRoute: typeof NoticiasRoute
+  PagarRoute: typeof PagarRoute
   PatrimonioRoute: typeof PatrimonioRouteWithChildren
   PerfilRoute: typeof PerfilRoute
   RendaPassivaRoute: typeof RendaPassivaRoute
@@ -203,6 +216,13 @@ declare module '@tanstack/react-router' {
       path: '/patrimonio'
       fullPath: '/patrimonio'
       preLoaderRoute: typeof PatrimonioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pagar': {
+      id: '/pagar'
+      path: '/pagar'
+      fullPath: '/pagar'
+      preLoaderRoute: typeof PagarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/noticias': {
@@ -292,6 +312,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinancasRoute: FinancasRoute,
   IaRoute: IaRoute,
   NoticiasRoute: NoticiasRoute,
+  PagarRoute: PagarRoute,
   PatrimonioRoute: PatrimonioRouteWithChildren,
   PerfilRoute: PerfilRoute,
   RendaPassivaRoute: RendaPassivaRoute,
