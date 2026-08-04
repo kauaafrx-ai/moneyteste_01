@@ -175,52 +175,62 @@ export function HomeScreen() {
         </button>
       </div>
 
-      <Fab label="Novo lançamento" onClick={() => setAddOpen(true)} />
+      <Fab label="Novo lançamento" onClick={() => setChooserOpen(true)} />
+
+      <LaunchChooser
+        open={chooserOpen}
+        onOpenChange={setChooserOpen}
+        onChoose={(kind) => {
+          setDraftKind(kind);
+          setAddOpen(true);
+        }}
+      />
 
       <ActivityEditor
+        key={draftKind}
         open={addOpen}
         onOpenChange={setAddOpen}
+        initial={{
+          id: uid(),
+          title: "",
+          category: draftKind === "income" ? "Receita fixa" : "Outros",
+          amount: 0,
+          date: new Date().toISOString().slice(0, 10),
+          icon: draftKind === "income" ? "bank" : "receipt",
+          kind: draftKind,
+        }}
         categories={categories.map((c) => c.label)}
         onSave={(item) => activity.add(item)}
       />
 
+      <NotificationCenter open={notificationsOpen} onOpenChange={setNotificationsOpen} />
+
       <BottomSheet
-        open={sheet !== null && sheet !== "add"}
+        open={sheet !== null}
         onOpenChange={(open) => !open && setSheet(null)}
-        title={sheet === "notifications" ? "Notificações" : "Novo lançamento"}
+        title={sheet === "insight" ? "Insight da semana" : "Movimentações"}
         description={
-          sheet === "notifications"
-            ? "Alertas de contas, metas e segurança."
-            : "Registre uma entrada ou saída em poucos toques."
+          sheet === "insight"
+            ? "Análise completa gerada a partir dos seus dados."
+            : "Histórico completo das suas entradas e saídas."
         }
         footer={
           <div className="flex gap-2 pb-2">
             <PremiumButton variant="outline" block onClick={() => setSheet(null)}>
-              Cancelar
-            </PremiumButton>
-            <PremiumButton block onClick={() => setSheet(null)}>
-              Confirmar
+              Fechar
             </PremiumButton>
           </div>
         }
       >
-        <div className="space-y-3 pb-2">
-          {[
-            "Aluguel vence em 2 dias",
-            "Meta de viagem atingiu 65%",
-            "Nova assinatura detectada: streaming",
-          ].map((text, i) => (
-            <div
-              key={text}
-              style={stagger(i, 60)}
-              className="animate-[fade_0.35s_var(--ease-premium)_both] flex items-center gap-3 rounded-[var(--radius-xl)] border border-border bg-surface p-3"
-            >
-              <span className="size-2 shrink-0 rounded-full bg-primary" aria-hidden />
-              <p className="text-sm text-foreground">{text}</p>
-            </div>
-          ))}
+        <div className="pb-2">
+          {sheet === "insight" ? (
+            <SmartFeedWidget limit={8} />
+          ) : (
+            <ActivityWidget title="Todas as movimentações" limit={40} />
+          )}
         </div>
       </BottomSheet>
     </AppShell>
   );
 }
+
