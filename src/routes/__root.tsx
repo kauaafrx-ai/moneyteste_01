@@ -86,6 +86,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#f7faf8" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "Aurum · Finanças premium" },
+      { name: "twitter:title", content: "Aurum · Finanças premium" },
+      { property: "og:description", content: "Aurum: controle financeiro premium, elegante e inteligente." },
+      { name: "twitter:description", content: "Aurum: controle financeiro premium, elegante e inteligente." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c82920ce-9895-42fb-8f96-f252d5a083bb/id-preview-f59fbbb5--d132b733-d53c-4ffa-a3d8-b4a19fb56a80.lovable.app-1785434592963.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c82920ce-9895-42fb-8f96-f252d5a083bb/id-preview-f59fbbb5--d132b733-d53c-4ffa-a3d8-b4a19fb56a80.lovable.app-1785434592963.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
