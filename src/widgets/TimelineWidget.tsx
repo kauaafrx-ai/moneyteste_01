@@ -87,7 +87,7 @@ export function TimelineWidget({ limit = 12 }: { limit?: number }) {
                       <span
                         className={cn(
                           "numeric shrink-0 text-sm font-semibold",
-                          positive ? "text-success" : "text-foreground",
+                          positive ? "text-success" : "text-destructive",
                         )}
                       >
                         {money(toMoney(item.amount), { signed: true })}
