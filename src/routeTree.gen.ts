@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RendaPassivaRouteImport } from './routes/renda-passiva'
+import { Route as PixPendentesRouteImport } from './routes/pix-pendentes'
 import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as PatrimonioRouteImport } from './routes/patrimonio'
 import { Route as PagarRouteImport } from './routes/pagar'
@@ -26,6 +27,11 @@ import { Route as ApiChatRouteImport } from './routes/api/chat'
 const RendaPassivaRoute = RendaPassivaRouteImport.update({
   id: '/renda-passiva',
   path: '/renda-passiva',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PixPendentesRoute = PixPendentesRouteImport.update({
+  id: '/pix-pendentes',
+  path: '/pix-pendentes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PerfilRoute = PerfilRouteImport.update({
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/pagar': typeof PagarRoute
   '/patrimonio': typeof PatrimonioRouteWithChildren
   '/perfil': typeof PerfilRoute
+  '/pix-pendentes': typeof PixPendentesRoute
   '/renda-passiva': typeof RendaPassivaRoute
   '/api/chat': typeof ApiChatRoute
   '/patrimonio/cofre': typeof PatrimonioCofreRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/noticias': typeof NoticiasRoute
   '/pagar': typeof PagarRoute
   '/perfil': typeof PerfilRoute
+  '/pix-pendentes': typeof PixPendentesRoute
   '/renda-passiva': typeof RendaPassivaRoute
   '/api/chat': typeof ApiChatRoute
   '/patrimonio/cofre': typeof PatrimonioCofreRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/pagar': typeof PagarRoute
   '/patrimonio': typeof PatrimonioRouteWithChildren
   '/perfil': typeof PerfilRoute
+  '/pix-pendentes': typeof PixPendentesRoute
   '/renda-passiva': typeof RendaPassivaRoute
   '/api/chat': typeof ApiChatRoute
   '/patrimonio/cofre': typeof PatrimonioCofreRoute
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/pagar'
     | '/patrimonio'
     | '/perfil'
+    | '/pix-pendentes'
     | '/renda-passiva'
     | '/api/chat'
     | '/patrimonio/cofre'
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/noticias'
     | '/pagar'
     | '/perfil'
+    | '/pix-pendentes'
     | '/renda-passiva'
     | '/api/chat'
     | '/patrimonio/cofre'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/pagar'
     | '/patrimonio'
     | '/perfil'
+    | '/pix-pendentes'
     | '/renda-passiva'
     | '/api/chat'
     | '/patrimonio/cofre'
@@ -191,6 +203,7 @@ export interface RootRouteChildren {
   PagarRoute: typeof PagarRoute
   PatrimonioRoute: typeof PatrimonioRouteWithChildren
   PerfilRoute: typeof PerfilRoute
+  PixPendentesRoute: typeof PixPendentesRoute
   RendaPassivaRoute: typeof RendaPassivaRoute
   ApiChatRoute: typeof ApiChatRoute
 }
@@ -202,6 +215,13 @@ declare module '@tanstack/react-router' {
       path: '/renda-passiva'
       fullPath: '/renda-passiva'
       preLoaderRoute: typeof RendaPassivaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pix-pendentes': {
+      id: '/pix-pendentes'
+      path: '/pix-pendentes'
+      fullPath: '/pix-pendentes'
+      preLoaderRoute: typeof PixPendentesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/perfil': {
@@ -315,6 +335,7 @@ const rootRouteChildren: RootRouteChildren = {
   PagarRoute: PagarRoute,
   PatrimonioRoute: PatrimonioRouteWithChildren,
   PerfilRoute: PerfilRoute,
+  PixPendentesRoute: PixPendentesRoute,
   RendaPassivaRoute: RendaPassivaRoute,
   ApiChatRoute: ApiChatRoute,
 }
