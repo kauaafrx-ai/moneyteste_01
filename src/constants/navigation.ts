@@ -13,6 +13,9 @@ export type AppRoutePath =
   | "/"
   | "/financas"
   | "/compromissos"
+  | "/pagar"
+  | "/pix-pendentes"
+  | "/configuracoes"
   | "/patrimonio"
   | "/patrimonio/cofre"
   | "/ia"
@@ -20,6 +23,7 @@ export type AppRoutePath =
   | "/educacao"
   | "/noticias"
   | "/perfil";
+
 
 export interface NavItem {
   id: string;
