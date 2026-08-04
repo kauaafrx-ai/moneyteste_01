@@ -18,6 +18,7 @@ import { Route as NoticiasRouteImport } from './routes/noticias'
 import { Route as IaRouteImport } from './routes/ia'
 import { Route as FinancasRouteImport } from './routes/financas'
 import { Route as EducacaoRouteImport } from './routes/educacao'
+import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as CompromissosRouteImport } from './routes/compromissos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PatrimonioIndexRouteImport } from './routes/patrimonio.index'
@@ -69,6 +70,11 @@ const EducacaoRoute = EducacaoRouteImport.update({
   path: '/educacao',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CompromissosRoute = CompromissosRouteImport.update({
   id: '/compromissos',
   path: '/compromissos',
@@ -98,6 +104,7 @@ const ApiChatRoute = ApiChatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/compromissos': typeof CompromissosRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/educacao': typeof EducacaoRoute
   '/financas': typeof FinancasRoute
   '/ia': typeof IaRoute
@@ -114,6 +121,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/compromissos': typeof CompromissosRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/educacao': typeof EducacaoRoute
   '/financas': typeof FinancasRoute
   '/ia': typeof IaRoute
@@ -130,6 +138,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/compromissos': typeof CompromissosRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/educacao': typeof EducacaoRoute
   '/financas': typeof FinancasRoute
   '/ia': typeof IaRoute
@@ -148,6 +157,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/compromissos'
+    | '/configuracoes'
     | '/educacao'
     | '/financas'
     | '/ia'
@@ -164,6 +174,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/compromissos'
+    | '/configuracoes'
     | '/educacao'
     | '/financas'
     | '/ia'
@@ -179,6 +190,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/compromissos'
+    | '/configuracoes'
     | '/educacao'
     | '/financas'
     | '/ia'
@@ -196,6 +208,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CompromissosRoute: typeof CompromissosRoute
+  ConfiguracoesRoute: typeof ConfiguracoesRoute
   EducacaoRoute: typeof EducacaoRoute
   FinancasRoute: typeof FinancasRoute
   IaRoute: typeof IaRoute
@@ -273,6 +286,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EducacaoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/configuracoes': {
+      id: '/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof ConfiguracoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/compromissos': {
       id: '/compromissos'
       path: '/compromissos'
@@ -328,6 +348,7 @@ const PatrimonioRouteWithChildren = PatrimonioRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompromissosRoute: CompromissosRoute,
+  ConfiguracoesRoute: ConfiguracoesRoute,
   EducacaoRoute: EducacaoRoute,
   FinancasRoute: FinancasRoute,
   IaRoute: IaRoute,
