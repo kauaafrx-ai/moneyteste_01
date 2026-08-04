@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import { Link } from "@tanstack/react-router";
+
 import {
   CalendarDays,
   CreditCard,
@@ -60,13 +62,15 @@ export function FinancesScreen() {
         title="Finanças"
         subtitle="Entradas, saídas e compromissos organizados."
         actions={
-          <button
-            aria-label="Filtros"
-            className="press flex size-10 items-center justify-center rounded-full border border-border bg-card shadow-xs"
+          <Link
+            to="/configuracoes"
+            aria-label="Configurações"
+            className="press flex size-10 items-center justify-center rounded-full border border-border bg-card shadow-xs transition-transform duration-200 hover:scale-105 hover:bg-accent"
           >
             <SlidersHorizontal className="size-4" aria-hidden strokeWidth={1.9} />
-          </button>
+          </Link>
         }
+
       />
 
       <div className="mt-5 space-y-6">

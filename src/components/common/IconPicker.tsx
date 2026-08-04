@@ -43,16 +43,18 @@ export function IconTile({
 }: {
   icon: string;
   className?: string;
-  tone?: "muted" | "success" | "accent";
+  tone?: "muted" | "success" | "accent" | "danger";
 }) {
   const Icon = resolveIcon(icon);
   return (
     <span
       className={cn(
-        "grid size-9 shrink-0 place-items-center rounded-full",
+        "grid size-9 shrink-0 place-items-center rounded-full transition-transform duration-200 hover:scale-110",
         tone === "success" && "bg-success/12 text-success",
+        tone === "danger" && "bg-destructive/12 text-destructive",
         tone === "accent" && "bg-accent text-accent-foreground",
         tone === "muted" && "bg-muted text-foreground",
+
         className,
       )}
     >

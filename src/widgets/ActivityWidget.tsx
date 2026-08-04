@@ -68,7 +68,7 @@ export function ActivityWidget({
                 }}
                 className="press hairline flex w-full items-center gap-3 px-4 py-3 text-left last:border-0 hover:bg-muted/50"
               >
-                <IconTile icon={item.icon} tone={item.kind === "income" ? "success" : "muted"} />
+                <IconTile icon={item.icon} tone={item.kind === "income" ? "success" : "danger"} />
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-medium text-foreground">{item.title}</span>
                   <span className="mt-0.5 block truncate text-[0.72rem] text-muted-foreground">
@@ -78,7 +78,7 @@ export function ActivityWidget({
                 <span
                   className={cn(
                     "numeric shrink-0 text-sm font-semibold",
-                    item.kind === "income" ? "text-success" : "text-foreground",
+                    item.kind === "income" ? "text-success" : "text-destructive",
                   )}
                 >
                   {money(toMoney(item.amount), { signed: true })}

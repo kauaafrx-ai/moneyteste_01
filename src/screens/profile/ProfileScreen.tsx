@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import {
   Bell,
   CircleHelp,
@@ -6,10 +7,12 @@ import {
   Info,
   Moon,
   Palette,
+  Settings,
   ShieldCheck,
   Upload,
   UserRound,
 } from "lucide-react";
+
 import { AppShell } from "@/components/layout/AppShell";
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
 import { Section } from "@/components/common/Section";
@@ -41,6 +44,21 @@ export function ProfileScreen() {
           </div>
         </div>
 
+        <Link
+          to="/configuracoes"
+          className="surface-card card-interactive press animate-[rise_0.45s_var(--ease-premium)_both] flex items-center gap-3 p-4"
+        >
+          <span className="bg-gradient-brand grid size-10 shrink-0 place-items-center rounded-[var(--radius-lg)] text-primary-foreground">
+            <Settings className="size-[1.1rem]" aria-hidden strokeWidth={1.9} />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-semibold text-foreground">Configurações completas</span>
+            <span className="mt-0.5 block text-xs text-muted-foreground">
+              Moeda, idioma, notificações, segurança, backup e dados.
+            </span>
+          </span>
+        </Link>
+
         <Section title="Aparência" description="Tema aplicado a todo o design system">
           <SegmentedControl<ThemeMode>
             value={themeMode}
@@ -52,6 +70,7 @@ export function ProfileScreen() {
             ]}
           />
         </Section>
+
 
         <Section title="Segurança">
           <div className="space-y-3">

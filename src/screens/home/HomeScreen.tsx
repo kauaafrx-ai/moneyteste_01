@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { Bell, CalendarDays, PiggyBank, Receipt, Sparkles, Target, Wallet } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
@@ -23,10 +24,12 @@ import { toMoney } from "@/utils/format";
 import { stagger } from "@/animations/motion";
 import { OVERVIEW } from "@/data/demo";
 import { ActivityEditor } from "@/components/finance/ActivityEditor";
-import { useCollection, useLedger } from "@/providers/LedgerProvider";
+import { LaunchChooser } from "@/components/finance/LaunchChooser";
+import { NotificationCenter } from "@/components/notifications/NotificationCenter";
+import { buildPendings } from "@/lib/pendings";
+import { useCollection, useLedger, uid } from "@/providers/LedgerProvider";
 
-function greeting() {
-  const hour = new Date().getHours();
+function greeting(hour: number) {
   if (hour < 12) return "Bom dia";
   if (hour < 18) return "Boa tarde";
   return "Boa noite";
@@ -35,39 +38,74 @@ function greeting() {
 export function HomeScreen() {
   const money = useMoneyFormatter();
   const ready = useDataReady();
+  const navigate = useNavigate();
   const [sheet, setSheet] = useState<string | null>(null);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [chooserOpen, setChooserOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
-  const { categories, subscriptions } = useLedger();
+  const [draftKind, setDraftKind] = useState<"income" | "expense">("expense");
+  // Computed after mount only — local time differs from SSR time.
+  const [hour, setHour] = useState(9);
+  useEffect(() => setHour(new Date().getHours()), []);
+
+  const ledger = useLedger();
+  const { categories, subscriptions } = ledger;
   const activity = useCollection("activity");
   const subsTotal = subscriptions.reduce(
     (sum, s) => sum + (s.cycle === "anual" ? Math.round(s.amount / 12) : s.amount),
     0,
   );
 
+  const pendings = buildPendings({
+    bills: ledger.bills,
+    commitments: ledger.commitments,
+    subscriptions: ledger.subscriptions,
+    installments: ledger.installments,
+    goals: ledger.goals,
+  });
+  const urgentCount = pendings.filter((p) => p.severity === "late" || p.severity === "today").length;
+
+  const handleBalanceAction = (id: string) => {
+    if (id === "add") setChooserOpen(true);
+    else if (id === "transfer") void navigate({ to: "/pix-pendentes" });
+    else if (id === "pay") void navigate({ to: "/pagar" });
+    else setSheet(id);
+  };
+
   return (
     <AppShell>
       <ScreenHeader
         eyebrow="Visão geral"
-        title={greeting()}
+        title={greeting(hour)}
         subtitle="Seu panorama financeiro em um só lugar."
         actions={
           <button
-            aria-label="Notificações"
-            onClick={() => setSheet("notifications")}
-            className="press relative grid size-10 place-items-center rounded-full border border-border bg-card shadow-xs hover:bg-accent"
+            aria-label={`Notificações${urgentCount ? ` (${urgentCount} urgentes)` : ""}`}
+            onClick={() => setNotificationsOpen(true)}
+            className="press relative grid size-10 place-items-center rounded-full border border-border bg-card shadow-xs transition-transform duration-200 hover:scale-105 hover:bg-accent"
           >
             <Bell className="size-4" aria-hidden strokeWidth={1.9} />
-            <span className="absolute right-2.5 top-2.5 size-1.5 animate-pulse rounded-full bg-primary" />
+            {pendings.length > 0 && (
+              <span
+                className={`numeric absolute -right-1 -top-1 grid min-w-[1.15rem] place-items-center rounded-full px-1 text-[0.6rem] font-bold text-primary-foreground ${
+                  urgentCount > 0 ? "animate-pulse bg-destructive" : "bg-gradient-emerald"
+                }`}
+              >
+                {pendings.length}
+              </span>
+            )}
           </button>
         }
       />
 
+
       <div className="mt-5 space-y-6">
         {ready ? (
-          <BalanceWidget onAction={(id) => setSheet(id)} />
+          <BalanceWidget onAction={handleBalanceAction} />
         ) : (
           <SkeletonBlock className="h-[19rem] rounded-[var(--radius-3xl)]" />
         )}
+
 
         <HealthScoreWidget />
 
@@ -137,52 +175,62 @@ export function HomeScreen() {
         </button>
       </div>
 
-      <Fab label="Novo lançamento" onClick={() => setAddOpen(true)} />
+      <Fab label="Novo lançamento" onClick={() => setChooserOpen(true)} />
+
+      <LaunchChooser
+        open={chooserOpen}
+        onOpenChange={setChooserOpen}
+        onChoose={(kind) => {
+          setDraftKind(kind);
+          setAddOpen(true);
+        }}
+      />
 
       <ActivityEditor
+        key={draftKind}
         open={addOpen}
         onOpenChange={setAddOpen}
+        initial={{
+          id: uid(),
+          title: "",
+          category: draftKind === "income" ? "Receita fixa" : "Outros",
+          amount: 0,
+          date: new Date().toISOString().slice(0, 10),
+          icon: draftKind === "income" ? "bank" : "receipt",
+          kind: draftKind,
+        }}
         categories={categories.map((c) => c.label)}
         onSave={(item) => activity.add(item)}
       />
 
+      <NotificationCenter open={notificationsOpen} onOpenChange={setNotificationsOpen} />
+
       <BottomSheet
-        open={sheet !== null && sheet !== "add"}
+        open={sheet !== null}
         onOpenChange={(open) => !open && setSheet(null)}
-        title={sheet === "notifications" ? "Notificações" : "Novo lançamento"}
+        title={sheet === "insight" ? "Insight da semana" : "Movimentações"}
         description={
-          sheet === "notifications"
-            ? "Alertas de contas, metas e segurança."
-            : "Registre uma entrada ou saída em poucos toques."
+          sheet === "insight"
+            ? "Análise completa gerada a partir dos seus dados."
+            : "Histórico completo das suas entradas e saídas."
         }
         footer={
           <div className="flex gap-2 pb-2">
             <PremiumButton variant="outline" block onClick={() => setSheet(null)}>
-              Cancelar
-            </PremiumButton>
-            <PremiumButton block onClick={() => setSheet(null)}>
-              Confirmar
+              Fechar
             </PremiumButton>
           </div>
         }
       >
-        <div className="space-y-3 pb-2">
-          {[
-            "Aluguel vence em 2 dias",
-            "Meta de viagem atingiu 65%",
-            "Nova assinatura detectada: streaming",
-          ].map((text, i) => (
-            <div
-              key={text}
-              style={stagger(i, 60)}
-              className="animate-[fade_0.35s_var(--ease-premium)_both] flex items-center gap-3 rounded-[var(--radius-xl)] border border-border bg-surface p-3"
-            >
-              <span className="size-2 shrink-0 rounded-full bg-primary" aria-hidden />
-              <p className="text-sm text-foreground">{text}</p>
-            </div>
-          ))}
+        <div className="pb-2">
+          {sheet === "insight" ? (
+            <SmartFeedWidget limit={8} />
+          ) : (
+            <ActivityWidget title="Todas as movimentações" limit={40} />
+          )}
         </div>
       </BottomSheet>
     </AppShell>
   );
 }
+

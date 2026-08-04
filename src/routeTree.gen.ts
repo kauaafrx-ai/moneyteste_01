@@ -10,12 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RendaPassivaRouteImport } from './routes/renda-passiva'
+import { Route as PixPendentesRouteImport } from './routes/pix-pendentes'
 import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as PatrimonioRouteImport } from './routes/patrimonio'
+import { Route as PagarRouteImport } from './routes/pagar'
 import { Route as NoticiasRouteImport } from './routes/noticias'
 import { Route as IaRouteImport } from './routes/ia'
 import { Route as FinancasRouteImport } from './routes/financas'
 import { Route as EducacaoRouteImport } from './routes/educacao'
+import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as CompromissosRouteImport } from './routes/compromissos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PatrimonioIndexRouteImport } from './routes/patrimonio.index'
@@ -27,6 +30,11 @@ const RendaPassivaRoute = RendaPassivaRouteImport.update({
   path: '/renda-passiva',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PixPendentesRoute = PixPendentesRouteImport.update({
+  id: '/pix-pendentes',
+  path: '/pix-pendentes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PerfilRoute = PerfilRouteImport.update({
   id: '/perfil',
   path: '/perfil',
@@ -35,6 +43,11 @@ const PerfilRoute = PerfilRouteImport.update({
 const PatrimonioRoute = PatrimonioRouteImport.update({
   id: '/patrimonio',
   path: '/patrimonio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PagarRoute = PagarRouteImport.update({
+  id: '/pagar',
+  path: '/pagar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NoticiasRoute = NoticiasRouteImport.update({
@@ -55,6 +68,11 @@ const FinancasRoute = FinancasRouteImport.update({
 const EducacaoRoute = EducacaoRouteImport.update({
   id: '/educacao',
   path: '/educacao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompromissosRoute = CompromissosRouteImport.update({
@@ -86,12 +104,15 @@ const ApiChatRoute = ApiChatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/compromissos': typeof CompromissosRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/educacao': typeof EducacaoRoute
   '/financas': typeof FinancasRoute
   '/ia': typeof IaRoute
   '/noticias': typeof NoticiasRoute
+  '/pagar': typeof PagarRoute
   '/patrimonio': typeof PatrimonioRouteWithChildren
   '/perfil': typeof PerfilRoute
+  '/pix-pendentes': typeof PixPendentesRoute
   '/renda-passiva': typeof RendaPassivaRoute
   '/api/chat': typeof ApiChatRoute
   '/patrimonio/cofre': typeof PatrimonioCofreRoute
@@ -100,11 +121,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/compromissos': typeof CompromissosRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/educacao': typeof EducacaoRoute
   '/financas': typeof FinancasRoute
   '/ia': typeof IaRoute
   '/noticias': typeof NoticiasRoute
+  '/pagar': typeof PagarRoute
   '/perfil': typeof PerfilRoute
+  '/pix-pendentes': typeof PixPendentesRoute
   '/renda-passiva': typeof RendaPassivaRoute
   '/api/chat': typeof ApiChatRoute
   '/patrimonio/cofre': typeof PatrimonioCofreRoute
@@ -114,12 +138,15 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/compromissos': typeof CompromissosRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/educacao': typeof EducacaoRoute
   '/financas': typeof FinancasRoute
   '/ia': typeof IaRoute
   '/noticias': typeof NoticiasRoute
+  '/pagar': typeof PagarRoute
   '/patrimonio': typeof PatrimonioRouteWithChildren
   '/perfil': typeof PerfilRoute
+  '/pix-pendentes': typeof PixPendentesRoute
   '/renda-passiva': typeof RendaPassivaRoute
   '/api/chat': typeof ApiChatRoute
   '/patrimonio/cofre': typeof PatrimonioCofreRoute
@@ -130,12 +157,15 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/compromissos'
+    | '/configuracoes'
     | '/educacao'
     | '/financas'
     | '/ia'
     | '/noticias'
+    | '/pagar'
     | '/patrimonio'
     | '/perfil'
+    | '/pix-pendentes'
     | '/renda-passiva'
     | '/api/chat'
     | '/patrimonio/cofre'
@@ -144,11 +174,14 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/compromissos'
+    | '/configuracoes'
     | '/educacao'
     | '/financas'
     | '/ia'
     | '/noticias'
+    | '/pagar'
     | '/perfil'
+    | '/pix-pendentes'
     | '/renda-passiva'
     | '/api/chat'
     | '/patrimonio/cofre'
@@ -157,12 +190,15 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/compromissos'
+    | '/configuracoes'
     | '/educacao'
     | '/financas'
     | '/ia'
     | '/noticias'
+    | '/pagar'
     | '/patrimonio'
     | '/perfil'
+    | '/pix-pendentes'
     | '/renda-passiva'
     | '/api/chat'
     | '/patrimonio/cofre'
@@ -172,12 +208,15 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CompromissosRoute: typeof CompromissosRoute
+  ConfiguracoesRoute: typeof ConfiguracoesRoute
   EducacaoRoute: typeof EducacaoRoute
   FinancasRoute: typeof FinancasRoute
   IaRoute: typeof IaRoute
   NoticiasRoute: typeof NoticiasRoute
+  PagarRoute: typeof PagarRoute
   PatrimonioRoute: typeof PatrimonioRouteWithChildren
   PerfilRoute: typeof PerfilRoute
+  PixPendentesRoute: typeof PixPendentesRoute
   RendaPassivaRoute: typeof RendaPassivaRoute
   ApiChatRoute: typeof ApiChatRoute
 }
@@ -189,6 +228,13 @@ declare module '@tanstack/react-router' {
       path: '/renda-passiva'
       fullPath: '/renda-passiva'
       preLoaderRoute: typeof RendaPassivaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pix-pendentes': {
+      id: '/pix-pendentes'
+      path: '/pix-pendentes'
+      fullPath: '/pix-pendentes'
+      preLoaderRoute: typeof PixPendentesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/perfil': {
@@ -203,6 +249,13 @@ declare module '@tanstack/react-router' {
       path: '/patrimonio'
       fullPath: '/patrimonio'
       preLoaderRoute: typeof PatrimonioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pagar': {
+      id: '/pagar'
+      path: '/pagar'
+      fullPath: '/pagar'
+      preLoaderRoute: typeof PagarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/noticias': {
@@ -231,6 +284,13 @@ declare module '@tanstack/react-router' {
       path: '/educacao'
       fullPath: '/educacao'
       preLoaderRoute: typeof EducacaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/configuracoes': {
+      id: '/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof ConfiguracoesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compromissos': {
@@ -288,25 +348,18 @@ const PatrimonioRouteWithChildren = PatrimonioRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompromissosRoute: CompromissosRoute,
+  ConfiguracoesRoute: ConfiguracoesRoute,
   EducacaoRoute: EducacaoRoute,
   FinancasRoute: FinancasRoute,
   IaRoute: IaRoute,
   NoticiasRoute: NoticiasRoute,
+  PagarRoute: PagarRoute,
   PatrimonioRoute: PatrimonioRouteWithChildren,
   PerfilRoute: PerfilRoute,
+  PixPendentesRoute: PixPendentesRoute,
   RendaPassivaRoute: RendaPassivaRoute,
   ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

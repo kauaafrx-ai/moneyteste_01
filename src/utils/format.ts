@@ -24,7 +24,24 @@ export function formatMoney(
   return `${units < 0 ? "−" : "+"}${formatted}`;
 }
 
+/**
+ * Global money-direction standard: entrada = verde, saída = vermelho.
+ * Use everywhere an amount is rendered so the whole app stays consistent.
+ */
+export function amountTone(value: number): string {
+  if (value > 0) return "text-success";
+  if (value < 0) return "text-destructive";
+  return "text-muted-foreground";
+}
+
+export function amountToneSoft(value: number): string {
+  if (value > 0) return "bg-success/10 text-success";
+  if (value < 0) return "bg-destructive/10 text-destructive";
+  return "bg-muted text-muted-foreground";
+}
+
 export function formatPercent(ratio: number, fractionDigits = 1): string {
+
   return new Intl.NumberFormat(APP.locale, {
     style: "percent",
     maximumFractionDigits: fractionDigits,
